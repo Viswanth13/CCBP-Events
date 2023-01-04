@@ -1,3 +1,8 @@
+import {Component} from 'react'
+import EventItem from '../EventItem'
+import ActiveEventRegistrationDetails from '../ActiveEventRegistrationDetails'
+import './index.css'
+
 const eventsList = [
   {
     id: 'f9bb2373-b80e-46b8-8219-f07217b9f3ce',
@@ -47,4 +52,39 @@ const eventsList = [
     registrationStatus: 'REGISTRATIONS_CLOSED',
   },
 ]
-// Write your code here
+
+class Events extends Component {
+  state = {activeEvent: 'INITIAL'}
+
+  updateStateEventClicked = registrationStatus => {
+    console.log('updating state before')
+    this.setState({activeEvent: registrationStatus})
+    console.log(registrationStatus)
+  }
+
+  render() {
+    const {activeEvent} = this.state
+    return (
+      <>
+        <div className="events-total-container">
+          <div className="events-left-container">
+            <h1>Events</h1>
+            <ul>
+              {eventsList.map(each => (
+                <EventItem
+                  key={each.id}
+                  eventDetails={each}
+                  updateStateEventClicked={this.updateStateEventClicked}
+                />
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        <ActiveEventRegistrationDetails activeEvent={activeEvent} />
+      </>
+    )
+  }
+}
+
+export default Events
